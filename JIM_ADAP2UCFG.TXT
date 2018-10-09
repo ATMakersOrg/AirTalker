@@ -1,0 +1,512 @@
+REM "JL3.CNF, compatible with Adap2U ROM ver 0.41 or higher."
+REM "Use with 'JL Groups' Set menus."
+REM "This is a configuration for 'Morse' Codes with Extended Features."
+REM "Codes based on  Neil Squire Society ezMorse
+REM "Compatible with Adaptive Firmware Card, and some added A2U features."
+REM "These codes may be used in conjunction with a Mouse pointing device."
+REM "Dits are entered on the S1 switch, Dahs are on the S2 switch."
+REM "The Time Code implementation of this configuration is in TCGROUPS.CNF."
+
+REM "The Morse Code display goes at bottom of screen: "
+mc_show 2 25 40
+
+REM "Clear bits 3, 4 and 5 (A2U front panel SWitches 1, 2 and 3)"
+eventc 3
+eventc 4
+eventc 5
+
+REM "Clear mouse button inputs (right, left, middle)"
+eventc 0
+eventc 1
+eventc 2
+
+REM "Enable 2-switch Morse Codes.  260ms accept time."
+REM "Dits on S1, Dahs on S2."
+
+morse2 260 3 4
+mc_scl 80
+
+AUTOREP 200 75 75
+
+REM "No debouncing for mouse buttons, 30 mSec debouncing for switches."
+bounce 0 10
+
+REM "Setkeystroke pacing delay.  Windows likes this better."
+pacing 10
+
+REM "Show Group label near the top."
+showgrp 2 2 12
+REM "Show last Meaning near the top."
+showamn 15 2 49
+
+REM EMUL_MS - Set the rear panel serial port (port 1) to emulate a Microsoft mouse.
+EMUL_MS 3
+
+
+REM "Put Groups in here, starting with Group 0, the Group common to all."
+REM "Be sure that no codes placed in other Groups duplicate the ones in"
+REM "  Group 0.  Also be sure to have a code or codes in Group 0 which"
+REM "  switch from one Group to another.  Do not put these codes in any"
+REM "  other Group.
+REM "********************************************************************"
+REM "Get rid of any codes previously defined in Group 0."
+killgrp 0
+REM "Assign Group 0, and give it a name."
+newgrp 0 "common"
+REM "This is redundant."
+mc_eras
+
+
+REM "Repeat"
+mcode "..-.."
+eventa "[rep_sw]"
+
+REM "Hold/Release"
+mcode "..-..-"
+eventa "[HOLD]"
+eventa "[REL]"
+
+mcode "........"
+eventa "[group 1][menu 2]"
+mcode ".-..-."
+eventa "[autorep 200 40 30][autoen 0][group 2][menu 3]"
+mcode ".--.--"
+eventa "[group 4][menu 5]"
+mcode "....----"
+eventa "[group 5][menu 6]"
+mcode "----...."
+eventa "[group 1][menu 7]"
+mcode "----....."
+eventa "[group 7][menu 8]"
+mcode "-.-.-."
+eventa "[group 7][menu 8]"
+
+
+REM "Add mouse capability just in case we need it."
+mouse3
+REM "Clear and define left button."
+eventc 1
+event 1 1 "[hit_key][AUTOEN 1]"
+event 1 2 "[end_rep][AUTOEN 0]"
+
+
+rem "PT = Passthrough toggle for a mouse."
+mcode "----.----"
+eventa "[pz_scl 50 50][pass 1][eventc 1][event 1 1 '[sendmbd 1]'][event 1 2 '[sendmbu 1]']"
+eventm "[eventc 0][event 0 1 '[sendmbd 0]'][event 0 2 '[sendmbu 0]']"
+eventa "[pass 0][eventc 1][event 1 2 '[end_rep]'][event 1 1 '[hit_key]']"
+
+
+REM "*********************************************************************"
+REM "Now, put new codes into Group 1"
+killgrp 1
+newgrp 1 "AlphaKeys"
+mc_eras
+
+mcode "...-."
+eventa "[autorep 200 40 30][autoen 0][group 2][menu 3]"
+
+mcode  ".-"
+eventa "a"
+mcode  "-..."
+eventa "b"
+mcode  "---."
+eventa "c"
+mcode  "-.."
+eventa "d"
+mcode  "."
+eventa "e"
+mcode  "..-."
+eventa "f"
+mcode  "--."
+eventa "g"
+mcode  "...."
+eventa "h"
+mcode  ".."
+eventa "i"
+mcode  ".---"
+eventa "j"
+mcode  "-.-"
+eventa "k"
+mcode  ".-.."
+eventa "l"
+mcode  "----"
+eventa "m"
+mcode  "-."
+eventa "n"
+mcode  "---"
+eventa "o"
+mcode  ".--."
+eventa "p"
+mcode  "--.-"
+eventa "q"
+mcode  ".-."
+eventa "r"
+mcode  "..."
+eventa "s"
+mcode  "-"
+eventa "t"
+mcode  "..-"
+eventa "u"
+mcode  "...-"
+eventa "v"
+mcode  ".--"
+eventa "w"
+mcode  "-..-"
+eventa "x"
+mcode  "-.--"
+eventa "y"
+mcode  "--.."
+eventa "z"
+mcode  ".----"
+eventa "1"
+mcode  "..---"
+eventa "2"
+mcode  "...--"
+eventa "3"
+mcode  "....-"
+eventa "4"
+mcode  "....."
+eventa "5"
+mcode  "-...."
+eventa "6"
+mcode  "--..."
+eventa "7"
+mcode  "---.."
+eventa "8"
+mcode  "----."
+eventa "9"
+mcode  "-----"
+eventa "0"
+mcode  ".-----"
+eventa "."
+mcode  ".---."
+eventa "-"
+mcode  "-...-"
+eventa "+"
+mcode  "-..--"
+eventa "*"
+mcode  "..----"
+eventa "$"
+mcode  "...-.-"
+eventa "%"
+mcode  "---.-"
+eventa "="
+mcode "--"
+eventa "[BS]"
+mcode "..--"
+eventa "[SP]"
+mcode  "-....."
+eventa ","
+mcode  "-....-"
+eventa ";"
+mcode  ".----."
+eventa ":"
+mcode  ".---.."
+eventa "&"
+mcode  "---.--"
+eventa "~"
+mcode  "---..."
+eventa "("
+mcode  "...---"
+eventa ")"
+mcode  ".--..."
+eventa "[[]"
+mcode  "-.----"
+eventa "?"
+mcode  ".-...."
+eventa "!"
+mcode  "....--"
+eventa "/"
+mcode  "----.."
+eventa "\"
+mcode  "-...--"
+eventa "^"
+mcode  "----.-"
+eventa "_"
+mcode  "..--.."
+eventa ">"
+mcode  "--..--"
+eventa "<"
+mcode  "-..---"
+eventa "]"
+mcode  "...--."
+eventa "[sh]'"
+mcode  "..-..."
+eventa "'"
+mcode  "--.---"
+eventa "`"
+mcode  "....-."
+eventa "|"
+mcode  "..---."
+eventa "#"
+mcode  "---..-"
+eventa "@"
+mcode  "..--."
+eventa "{"
+mcode  "--..-"
+eventa "}"
+mcode ".-..-"
+eventa "[GU]"
+mcode ".--.."
+eventa "[GD]"
+mcode ".-.-.."
+eventa "[GL]"
+mcode ".-.-."
+eventa "[GR]"
+mcode "......."
+eventa "[GHOME]"
+mcode "...-..."
+eventa "[GEND]"
+mcode ".....-"
+eventa "[GPU]"
+mcode "...-.."
+eventa "[GPD]"
+mcode ".-.-"
+eventa "[ENTER]"
+mcode "--...."
+eventa "[ESC]"
+mcode "-.--.."
+eventa "[GDEL]"
+mcode "-.-.."
+eventa "[GINS]"
+mcode "---..-."
+eventa "[TAB]"
+mcode "---.-."
+eventa "[BTAB]"
+mcode "--...-"
+eventa "[SH]"
+mcode "--.--"
+eventa "[ALT]"
+mcode "-.-."
+eventa "[^]"
+mcode "-----."
+eventa "[CAPLOCK]"
+mcode "--.-.."
+eventa "[SCRLOCK]"
+mcode "---...-"
+eventa "[NUMLOCK]"
+mcode "--.----"
+eventa "[F1]"
+mcode "--..---"
+eventa "[F2]"
+mcode "--...--"
+eventa "[F3]"
+mcode "--....-"
+eventa "[F4]"
+mcode "--....."
+eventa "[F5]"
+mcode "---...."
+eventa "[F6]"
+mcode "----..."
+eventa "[F7]"
+mcode "-----.."
+eventa "[F8]"
+mcode "------."
+eventa "[F9]"
+mcode "-------"
+eventa "[F10]"
+mcode ".------"
+eventa "[F11]"
+mcode "..-----"
+eventa "[F12]"
+mcode  "--.--."
+eventa "[Print]"
+REM "SYSTEM RESET - CTRL ALT DEL"
+REM "I HAVE NOT USED THIS WITH WINDOW10 - CAN MAKE IT THE WIN KEY"
+mcode  "-.-..-."
+eventa "[^][alt]"
+eventa "[del]"
+
+REM "**********************************************************************"
+REM "Now, put new codes into Group 2"
+killgrp 2
+newgrp 2 "Windows"
+
+rem toggle mouse move distance between 1 micky and 4 mickys
+mcode "--.."
+eventa "[mm_xscl 25][mm_yscl 25][beep 440 300]"
+eventa "[mm_xscl 120][mm_yscl 120]"
+
+
+mcode "..---"
+eventa "[mm_xscl 120][mm_yscl 120][beep 440 300]"
+
+mcode "...--"
+eventa "[mm_xscl 150][mm_yscl 150][beep 440 300]"
+
+
+mcode "."
+eventa "[rep_sw]"
+
+rem move mouse left 4 mickys
+mcode ".."
+eventa "[mmove 1 4 3 0]"
+
+rem move mouse right 4 mickys
+mcode "..."
+eventa "[mmove 0 4 3 0]"
+
+rem move mouse up 4 mickys
+mcode "-"
+eventa "[mmove 3 0 1 4]"
+
+rem move mouse down 4 mickys
+mcode "--"
+eventa "[mmove 3 0 0 4]"
+
+rem left mouse button click/release
+mcode ".-"
+eventa "[sendmbd 1][sendmbu 1]"
+
+rem right mouse button click/release
+mcode ".--"
+eventa "[sendmbd 0][sendmbu 0]"
+
+rem left mouse button double click
+mcode "..-"
+eventa "[sendmbd 1][sendmbu 1][sendmbd 1][sendmbu 1]"
+
+rem right mouse button double click
+mcode "..--"
+eventa "[sendmbd 0][sendmbu 0][sendmbd 0][sendmbu 0]"
+
+rem left mouse button toggle
+mcode "-."
+eventa "[sendmbd 1]"
+eventa "[sendmbu 1]"
+
+rem right mouse button toggle
+mcode "-.."
+eventa "[sendmbd 0]"
+eventa "[sendmbu 0]"
+
+
+mcode ".-..-"
+eventa "[GU]"
+mcode ".--.."
+eventa "[GD]"
+mcode ".-.-.."
+eventa "[GL]"
+mcode ".-.-."
+eventa "[GR]"
+
+mcode "......."
+eventa "[GHOME]"
+mcode "...-..."
+eventa "[GEND]"
+mcode ".....-"
+eventa "[GPU]"
+mcode "...-.."
+eventa "[GPD]"
+mcode ".-.-"
+eventa "[ENTER]"
+mcode "--...."
+eventa "[ESC]"
+mcode "-.--.."
+eventa "[GDEL]"
+mcode "-.-.."
+eventa "[GINS]"
+mcode "---..-."
+eventa "[TAB]"
+mcode "---.-."
+eventa "[BTAB]"
+mcode "--...-"
+eventa "[SH]"
+mcode "--.--"
+eventa "[ALT]"
+mcode "-.-."
+eventa "[^]"
+
+mcode "--.----"
+eventa "[F1]"
+mcode "--..---"
+eventa "[F2]"
+mcode "--...--"
+eventa "[F3]"
+mcode "--....-"
+eventa "[F4]"
+mcode "--....."
+eventa "[F5]"
+mcode "---...."
+eventa "[F6]"
+mcode "----..."
+eventa "[F7]"
+mcode "-----.."
+eventa "[F8]"
+mcode "------."
+eventa "[F9]"
+mcode "-------"
+eventa "[F10]"
+mcode ".------"
+eventa "[F11]"
+mcode "..-----"
+eventa "[F12]"
+
+
+REM "SWITCH APPLICATION"
+mcode  "....."
+eventa "[alt][tab]"
+
+REM "SWITCH APPLICATION"
+mcode  "-----"
+eventa "[alt][esc]"
+
+REM "CLOSE APPLICATION"
+mcode ".-.-.-"
+eventa "[alt][F4]"
+
+    
+REM "CAPTURE"
+mcode  "--.--."
+eventa "[alt][Print]"
+
+REM "SYSTEM RESET - CTRL ALT DEL"
+mcode  "-.-..-."
+eventa "[^][alt][del]"
+
+REM "START MENU"
+rem mcode "--.-"
+rem eventa "[mm_xscl 120][mm_yscl 120][mmove 1 1024 1 768][mmove 0 125 0 370]"
+
+REM "START MENU"
+rem mcode "..-."
+rem eventa "[^][esc]"
+rem eventm "[mm_xscl 120][mm_yscl 120][mmove 1 1024 1 768][mmove 0 40 0 250]"
+
+mcode "...-."
+eventa "[autorep 200 75 75][autoen 0][group 1][menu 2]"
+mcode "-.--"
+eventa "[autorep 200 75 75][autoen 0][group 1][menu 2]"
+REM "*********************************************************************"
+killgrp 3
+newgrp 3 "Mousekeys"
+mc_eras
+
+
+REM "**********************************************************************"
+killgrp 5
+newgrp 5 "Notepad1"
+mc_eras
+mcode  ".-"
+eventa "James Lubin[group 1][menu 2]"
+REM "REMOVED JIM'S PASSWORDS"
+mcode "-----."
+eventa "[CAPLOCK]"
+REM "**********************************************************************"
+REM "Have the system start in Group 1 and Menu 2."
+group 1
+menu 2
+
+REM "This is needed in MSWindows to stop the repeats when ALTx is used."
+postcod 1
+
+REM "We don't need auto-repeat now."
+autoen 0
+
+REM "Beep when this configuration upload is complete."
+rem beep 440 300
+rem beep 880 300
+
+REM "********************************************************************"
+REM "-- End of File --"
